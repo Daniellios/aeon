@@ -23,7 +23,7 @@ const initialState: IChartState = {
     subTaskAmount: 0,
     isFolded: false,
   },
-  unfoldedChartItems: [],
+  unfoldedTreeItems: [],
   ghantDays: [],
   ghantWeeks: [],
   ghantProjects: [],
@@ -35,26 +35,29 @@ export const projectData = createSlice({
   initialState,
   reducers: {
     foldTask: (state, action: PayloadAction<number>) => {
-      const updatedFoldLevel = state.unfoldedChartItems.map((item) => {
+      const updatedFoldLevel = state.unfoldedTreeItems.map((item) => {
         if (item.level > action.payload) {
           return { ...item, isFolded: true };
         } else {
           return item;
         }
       });
+      console.log(updatedFoldLevel);
+
       state.isAnyFolded = true;
-      state.unfoldedChartItems = updatedFoldLevel;
+      state.unfoldedTreeItems = updatedFoldLevel;
     },
     unfoldTask: (state, action: PayloadAction<number>) => {
-      const updatedFoldLevel = state.unfoldedChartItems.map((item) => {
+      const updatedFoldLevel = state.unfoldedTreeItems.map((item) => {
         if (item.level > action.payload) {
           return { ...item, isFolded: false };
         } else {
           return item;
         }
       });
+      console.log(updatedFoldLevel);
       state.isAnyFolded = false;
-      state.unfoldedChartItems = updatedFoldLevel;
+      state.unfoldedTreeItems = updatedFoldLevel;
     },
 
     setGhantWeeks: (state, action: PayloadAction<IGhantWeek[]>) => {
@@ -71,7 +74,7 @@ export const projectData = createSlice({
     builder.addCase(
       getChartData.fulfilled,
       (state, action: PayloadAction<IChartState>) => {
-        if (state.unfoldedChartItems.length === 0) {
+        if (state.unfoldedTreeItems.length === 0) {
           let sub = action.payload.chart.sub;
           let level = 1;
           const subTaskAmount = sub?.length;
@@ -86,8 +89,8 @@ export const projectData = createSlice({
               subTaskAmount: subTaskAmount,
               isFolded: false,
             };
-            if (state.unfoldedChartItems.length === 0) {
-              state.unfoldedChartItems = [firstObj];
+            if (state.unfoldedTreeItems.length === 0) {
+              state.unfoldedTreeItems = [firstObj];
             }
             while (sub) {
               sub.forEach((task) => {
@@ -100,10 +103,7 @@ export const projectData = createSlice({
                   subTaskAmount: task.sub?.length,
                   isFolded: false,
                 };
-                state.unfoldedChartItems = [
-                  ...state.unfoldedChartItems,
-                  newTask,
-                ];
+                state.unfoldedTreeItems = [...state.unfoldedTreeItems, newTask];
                 if (task.sub) {
                   sub = task.sub;
                 } else {

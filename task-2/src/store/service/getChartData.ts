@@ -10,7 +10,8 @@ export const getChartData: any = createAsyncThunk(
       const response = await axios.get<IChartState>(
         `http://82.202.204.94/tmp/test.php`
       );
-      return offlineData;
+      // return offlineData;
+      return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue("Не удалось загрузить данные");
     }

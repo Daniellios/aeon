@@ -13,7 +13,7 @@ export interface IChartState {
   project: string;
   period: string;
   chart: IChartTask;
-  unfoldedChartItems: IChartTask[];
+  unfoldedTreeItems: IChartTask[];
   ghantDays: IGhantDay[];
   ghantWeeks: IGhantWeek[];
   ghantProjects: IGhantProject[];

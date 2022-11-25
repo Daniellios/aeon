@@ -2,7 +2,6 @@ import { eachDayOfInterval, endOfWeek, eachWeekOfInterval } from "date-fns";
 import moment from "moment";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GhantDays from "../components/GhantDays";
@@ -26,14 +25,14 @@ import type {
 
 const Home: NextPage = () => {
   const dispatch = useDispatch();
-  const { period, unfoldedChartItems } = useSelector(selectData);
+  const { period, unfoldedTreeItems } = useSelector(selectData);
 
   useEffect(() => {
     dispatch(getChartData());
     if (period) {
-      getWeeksOfPeriod(period, unfoldedChartItems);
+      getWeeksOfPeriod(period, unfoldedTreeItems);
     }
-  }, [unfoldedChartItems, period]);
+  }, [unfoldedTreeItems, period]);
 
   const getWeeksOfPeriod = (period: string, chartItems: IChartTask[]) => {
     // ОПРЕДЕЛЕНИЕ НАЧАЛЬНОЙ И КОНЕЧНОЙ ДАТЫ ВЫПОЛНЕНИЯ
@@ -55,7 +54,6 @@ const Home: NextPage = () => {
     // ДНИ НЕДЕЛИ
     const ghantWeeks: IGhantWeek[] = weeks.map(
       (weekStart: Date): IGhantWeek => {
-        // КОНЕЦ НЕДЕЛИ
         const weekEnd: Date = endOfWeek(weekStart, {
           weekStartsOn: 1,
         });
