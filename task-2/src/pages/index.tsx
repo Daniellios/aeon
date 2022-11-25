@@ -100,7 +100,7 @@ const Home: NextPage = () => {
           <GhantProject></GhantProject>
 
           {/* GANT CHART */}
-          <div className=" main_border flex h-[703px] w-[1023px] flex-col items-start overflow-hidden overflow-x-scroll border-[1px] border-x-0">
+          <div className=" main_border  scrollbar flex h-[703px] w-[1023px] flex-col items-start overflow-hidden overflow-x-scroll border-[1px] border-x-0">
             {/* WEEKS */}
             <GhantWeeks></GhantWeeks>
             {/* DAYS */}
