@@ -3,7 +3,7 @@ import type {
   IChartTask,
   IDayInfo,
   IGhantDay,
-  ITaskInfo,
+  IGhantProject,
 } from "../utils/interfaces";
 import moment from "moment";
 
@@ -11,7 +11,7 @@ import moment from "moment";
 export const checkDayLoad = (
   day: Date,
   dayIndex: number,
-  projects: ITaskInfo[]
+  projects: IGhantProject[]
 ): IGhantDay => {
   const filtered = projects
     .filter((proj) => isEqual(day, proj.projStart))
@@ -34,7 +34,7 @@ export const checkDayLoad = (
 
 // Работы по каждому проекту
 export const getProjectSchedule = (chartItems: IChartTask[]) => {
-  return chartItems.map((task, idx): ITaskInfo => {
+  return chartItems.map((task, idx): IGhantProject => {
     const taskStart = moment(task.period_start).toDate();
     const taskEnd = moment(task.period_end).toDate();
     const taskLength = eachDayOfInterval({

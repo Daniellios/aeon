@@ -6,6 +6,7 @@ import type {
   IChartTask,
   IGhantDay,
   IGhantWeek,
+  IGhantProject,
 } from "../utils/interfaces";
 import { getChartData } from "./service/getChartData";
 
@@ -22,10 +23,11 @@ const initialState: IChartState = {
     subTaskAmount: 0,
     isFolded: false,
   },
+  unfoldedChartItems: [],
   ghantDays: [],
   ghantWeeks: [],
+  ghantProjects: [],
   isAnyFolded: false,
-  chartItems: [],
 };
 
 export const projectData = createSlice({
@@ -33,7 +35,7 @@ export const projectData = createSlice({
   initialState,
   reducers: {
     foldTask: (state, action: PayloadAction<number>) => {
-      const updatedFoldLevel = state.chartItems.map((item) => {
+      const updatedFoldLevel = state.unfoldedChartItems.map((item) => {
         if (item.level > action.payload) {
           return { ...item, isFolded: true };
         } else {
@@ -41,10 +43,10 @@ export const projectData = createSlice({
         }
       });
       state.isAnyFolded = true;
-      state.chartItems = updatedFoldLevel;
+      state.unfoldedChartItems = updatedFoldLevel;
     },
     unfoldTask: (state, action: PayloadAction<number>) => {
-      const updatedFoldLevel = state.chartItems.map((item) => {
+      const updatedFoldLevel = state.unfoldedChartItems.map((item) => {
         if (item.level > action.payload) {
           return { ...item, isFolded: false };
         } else {
@@ -52,21 +54,24 @@ export const projectData = createSlice({
         }
       });
       state.isAnyFolded = false;
-      state.chartItems = updatedFoldLevel;
+      state.unfoldedChartItems = updatedFoldLevel;
+    },
+
+    setGhantWeeks: (state, action: PayloadAction<IGhantWeek[]>) => {
+      state.ghantWeeks = action.payload;
     },
     setGhantDays: (state, action: PayloadAction<IGhantDay[]>) => {
       state.ghantDays = action.payload;
     },
-    setGhantWeeks: (state, action: PayloadAction<IGhantWeek[]>) => {
-      state.ghantWeeks = action.payload;
+    setGhantProjects: (state, action: PayloadAction<IGhantProject[]>) => {
+      state.ghantProjects = action.payload;
     },
   },
-
   extraReducers: (builder) => {
     builder.addCase(
       getChartData.fulfilled,
       (state, action: PayloadAction<IChartState>) => {
-        if (state.chartItems.length === 0) {
+        if (state.unfoldedChartItems.length === 0) {
           let sub = action.payload.chart.sub;
           let level = 1;
           const subTaskAmount = sub?.length;
@@ -81,8 +86,8 @@ export const projectData = createSlice({
               subTaskAmount: subTaskAmount,
               isFolded: false,
             };
-            if (state.chartItems.length === 0) {
-              state.chartItems = [firstObj];
+            if (state.unfoldedChartItems.length === 0) {
+              state.unfoldedChartItems = [firstObj];
             }
             while (sub) {
               sub.forEach((task) => {
@@ -95,7 +100,10 @@ export const projectData = createSlice({
                   subTaskAmount: task.sub?.length,
                   isFolded: false,
                 };
-                state.chartItems = [...state.chartItems, newTask];
+                state.unfoldedChartItems = [
+                  ...state.unfoldedChartItems,
+                  newTask,
+                ];
                 if (task.sub) {
                   sub = task.sub;
                 } else {
@@ -117,6 +125,10 @@ export const projectData = createSlice({
 
 // config the store
 const store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   reducer: {
     project: projectData.reducer,
   },
@@ -125,10 +137,17 @@ const store = configureStore({
 export const selectData = (state: RootState) => state.project;
 export const selectGhantDays = (state: RootState) => state.project.ghantDays;
 export const selectGhantWeeks = (state: RootState) => state.project.ghantWeeks;
+export const selectGhantProjects = (state: RootState) =>
+  state.project.ghantProjects;
 // export default the store
 
 export default store;
-export const { foldTask, unfoldTask, setGhantDays, setGhantWeeks } =
-  projectData.actions;
+export const {
+  foldTask,
+  unfoldTask,
+  setGhantDays,
+  setGhantWeeks,
+  setGhantProjects,
+} = projectData.actions;
 
 export type RootState = ReturnType<typeof store.getState>;

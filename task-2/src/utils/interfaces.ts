@@ -13,13 +13,14 @@ export interface IChartState {
   project: string;
   period: string;
   chart: IChartTask;
-  chartItems: IChartTask[];
+  unfoldedChartItems: IChartTask[];
   ghantDays: IGhantDay[];
   ghantWeeks: IGhantWeek[];
+  ghantProjects: IGhantProject[];
   isAnyFolded: boolean;
 }
 
-export interface ITaskInfo {
+export interface IGhantProject {
   id: number;
   name: string;
   level: number;
@@ -32,8 +33,8 @@ export interface ITaskInfo {
 }
 
 export interface IGhantWeek {
-  start: string | string[] | Date;
-  end: string | string[] | Date;
+  start: string;
+  end: string;
 }
 
 export interface IGhantDay {
