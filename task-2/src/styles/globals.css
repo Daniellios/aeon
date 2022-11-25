@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply min-h-screen overflow-x-hidden bg-[#F5F5F5];
+  }
+
+  #__next {
+    @apply flex h-full w-screen items-start justify-center overflow-x-hidden py-[22px] px-6;
+  }
+}
+
+@layer components {
+  .gant-wrap {
+    @apply absolute left-0 z-10 flex h-6 w-full translate-y-9;
+  }
+
+  .gant-line {
+    @apply h-full w-full rounded-md border-[1px] border-[#497CF6] bg-[#E2EBFF] content-none;
+  }
+
+  .work_item {
+    @apply main_border z-10 flex  h-[40px] w-full items-center justify-start border-[1px] border-b-0 border-r-0 border-l-0 bg-white py-[11px] last:border-b-[1px];
+  }
+
+  .folded {
+    @apply -z-10 -translate-y-24 transition-all;
+  }
+}
+
+@layer utilities {
+  .main_border {
+    @apply border-black-rgba;
+  }
+
+  .fade {
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .fade::after {
+    content: "";
+    height: 100%;
+    width: 10px;
+    display: block;
+    position: absolute;
+    right: 0;
+    background: rgba(16, 31, 43, 0.1);
+    background: -moz-linear-gradient(
+      right,
+      rgba(0, 0, 0, 0.08) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    background: -webkit-gradient(
+      right top,
+      left top,
+      color-stop(0%, rgba(16, 31, 43, 0.1)),
+      color-stop(100%, rgba(16, 31, 43, 0.1))
+    );
+    background: -webkit-linear-gradient(
+      right,
+      rgba(16, 31, 43, 0.1) 0%,
+      rgba(16, 31, 43, 0) 100%
+    );
+    background: -o-linear-gradient(
+      right,
+      rgba(16, 31, 43, 0.1) 0%,
+      rgba(16, 31, 43, 0) 100%
+    );
+    background: -ms-linear-gradient(
+      left,
+      rgba(16, 31, 43, 0.1) 0%,
+      rgba(16, 31, 43, 0) 100%
+    );
+    background: linear-gradient(
+      to left,
+      rgba(16, 31, 43, 0.1) 0%,
+      rgba(16, 31, 43, 0) 100%
+    );
+  }
+}
