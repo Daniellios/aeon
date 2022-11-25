@@ -5,20 +5,20 @@ const levelColors = [
     bg: "#E2EBFF",
   },
   {
+    border: "#FFA530",
+    bg: "#FFF2E0",
+  },
+  {
+    border: "#2DB77B",
+    bg: "#CFF0D6",
+  },
+  {
     border: "#2DB77B",
     bg: "#CFF0D6",
   },
   {
     border: "#FFA530",
     bg: "#FFF2E0",
-  },
-  {
-    border: "#BE385E",
-    bg: "#FAEFF2",
-  },
-  {
-    border: "#8754F6",
-    bg: "#F5F1FE",
   },
 ];
 

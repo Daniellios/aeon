@@ -3,25 +3,19 @@ import moment from "moment";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GhantDays from "../components/GhantDays";
 import GhantProject from "../components/GhantProject";
 import GhantWeeks from "../components/GhantWeeks";
 import Header from "../components/Header";
-import levelIcons from "../constants/levelIcons";
-import UIVar from "../constants/uiVariables";
 import { checkDayLoad, getProjectSchedule } from "../helpers/ghantCreators";
 import { getChartData } from "../store/service/getChartData";
 import {
-  foldTask,
   selectData,
-  selectGhantProjects,
   setGhantDays,
   setGhantProjects,
   setGhantWeeks,
-  unfoldTask,
 } from "../store/store";
 import type {
   IChartTask,
@@ -32,7 +26,7 @@ import type {
 
 const Home: NextPage = () => {
   const dispatch = useDispatch();
-  const { period, project, unfoldedChartItems } = useSelector(selectData);
+  const { period, unfoldedChartItems } = useSelector(selectData);
 
   useEffect(() => {
     dispatch(getChartData());
@@ -100,7 +94,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 bg-white p-[24px]">
-        <Header projectName={project} projectPeriod={period}></Header>
+        <Header></Header>
         <div className="fade flex w-full">
           {/* SIDE MENU */}
           <GhantProject></GhantProject>
